@@ -534,12 +534,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
+				//国际化的初始
 				initMessageSource();
 
+				//初始化并注册应用时间广播器
+				//如果存在广播器则直接使用，不存在则初始化系统默认广播器。SimpleApplicationEventMulticaster
 				// Initialize event multicaster for this context.
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				//模版方法，给子类实现
 				onRefresh();
 
 				// Check for listener beans and register them.
@@ -821,6 +825,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void registerListeners() {
 		// Register statically specified listeners first.
+		//将当前容器中特别注入的监听器添加到广播器中 监听器实现 ApplicationListener
 		for (ApplicationListener<?> listener : getApplicationListeners()) {
 			getApplicationEventMulticaster().addApplicationListener(listener);
 		}
